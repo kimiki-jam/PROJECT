@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>투자사업 통합 모니터링 플랫폼</title>
+  <link rel="icon" href="data:,">
+  <script>
+    // 화면에 표시할 버전 (기능을 바꿀 때 기록용으로만 올리면 됨)
+    window.APP_VERSION = '3.3';
+    // 캐시 방지: 열 때마다 새 주소로 불러와 브라우저가 이전 파일을 쓰지 않게 함 (버전 숫자를 올릴 필요 없음)
+    window.CACHE_BUST = Date.now();
+    document.write('<link rel="stylesheet" href="css/style.css?t=' + CACHE_BUST + '">');
+  </script>
+</head>
+<body>
+  <div class="app">
+    <!-- 좌측 사이드바 -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">IPM</div>
+        <div class="brand-text">
+          <strong>투자사업 통합</strong>
+          <span>모니터링 플랫폼</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <p class="nav-title">MENU</p>
+        <a class="nav-item" href="#dashboard" data-menu="dashboard"><span data-icon="dashboard"></span>종합 대시보드</a>
+        <a class="nav-item" href="#projects" data-menu="projects"><span data-icon="projects"></span>투자사업 관리</a>
+        <a class="nav-item" href="#schedule" data-menu="schedule"><span data-icon="schedule"></span>일정관리</a>
+        <a class="nav-item" href="#progress" data-menu="progress"><span data-icon="progress"></span>공정률 관리</a>
+        <a class="nav-item" href="#budget" data-menu="budget"><span data-icon="budget"></span>투자비 관리</a>
+      </nav>
+      <div class="sidebar-foot">
+        <button type="button" class="reset-btn" data-action="reset-data"><span data-icon="refresh"></span>가상 데이터 초기화</button>
+        <p>가상 데이터 · 교육용 데모 · <b class="app-version" id="app-version"></b></p>
+        <p>데이터는 이 브라우저에만 저장됩니다</p>
+      </div>
+    </aside>
+
+    <!-- 본문 -->
+    <div class="main">
+      <header class="header">
+        <div class="header-title">
+          <h1 id="page-title">종합 대시보드</h1>
+          <p id="page-desc"></p>
+        </div>
+        <div class="header-tools">
+          <label class="search">
+            <span data-icon="search"></span>
+            <input id="search-input" type="search" placeholder="사업명 또는 코드 검색" autocomplete="off">
+          </label>
+          <div class="today">기준일 <b id="today"></b></div>
+          <a class="bell" href="#dashboard" title="알림 · 경고 보기" data-action="go-alerts">
+            <span data-icon="bell"></span>
+            <em id="alert-count" class="bell-count">0</em>
+          </a>
+        </div>
+      </header>
+      <main id="content" class="content"></main>
+    </div>
+  </div>
+
+  <!-- 모달·토스트 표시 영역 -->
+  <div id="modal-root"></div>
+  <div id="toast-root" class="toast-root"></div>
+
+  <!-- 로드 순서 중요: ES 모듈을 쓰지 않고 전역 객체로 공유 (서버 없이 더블클릭 실행 가능) -->
+  <script>
+    ['store', 'seed', 'calc', 'ui', 'views', 'app'].forEach(function (name) {
+      document.write('<script src="js/' + name + '.js?t=' + CACHE_BUST + '"><\/script>');
+    });
+  </script>
+</body>
+</html>
